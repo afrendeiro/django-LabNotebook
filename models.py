@@ -19,7 +19,7 @@ class Notebook(models.Model):
 		return self.title
 
 	def get_absolute_url(self):
-		return "/notebooks/%s/" % self.slug
+		return "/%s/" % self.slug
 
 
 class Entry(models.Model):
@@ -35,7 +35,7 @@ class Entry(models.Model):
 		return self.title
 
 	def get_absolute_url(self):
-		return "/%s/%s/%s/" % (self.pub_date.year, self.pub_date.month, self.slug)
+		return "/%s/%s/%s/%s/" % (self.notebook, self.pub_date.year, self.pub_date.month, self.slug)
 
 	class Meta:
 		ordering = ["-pub_date"]

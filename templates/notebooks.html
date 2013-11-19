@@ -1,0 +1,35 @@
+{% include 'header.html' %}
+
+    <div class="wrapper">
+
+        {% if notebooks %}
+                {% for notebook in notebooks %}
+                    <div class="entry">
+                        <header class="entryhead">
+                            <h1><a href="{{ notebook.get_absolute_url }}">{{ notebook.title }}</a></h1>
+                            <h3>{{notebook.start_date.year}}/{{notebook.start_date.month}}/{{notebook.start_date.day}}</h3>
+                        </header>
+                        <p>{{ notebook.description }}</p>
+                    </div>
+                {% endfor %}
+
+                <br />
+
+                {% if page.has_previous %}
+                    <a href="/{{ page.previous_page_number }}/">Previous Page</a>
+                {% endif %}
+
+                {% if page.has_next %}
+                    <a href="/{{ page.next_page_number }}/">Next Page</a>
+                {% endif %}
+        {% else %}
+            <div class="entry">
+                <p>No entrys matched</p>
+            </div>
+        {% endif %}
+
+    </div>
+
+    <br style="clear:both;">
+
+{% include 'footer.html' %}

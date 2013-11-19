@@ -1,0 +1,24 @@
+{% include 'header.html' %}
+
+    <div class="wrapper">
+
+        {% if entry %}
+            <div class="entry">
+                <header class="entryhead">
+                    <h1><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a></h1>
+                    <h2>Entry part of the <i>"{{entry.notebook}}"</i> notebook</h2>
+                    <h3>Published on {{entry.pub_date.year}}/{{entry.pub_date.month}}/{{entry.pub_date.day}}</h3>
+                </header>
+                <p>{{ entry.text }}</p>
+            </div>
+        {% else %}
+            <div class="entry">
+                <p>No entry matched</p>
+            </div>
+        {% endif %}
+
+    </div>
+
+    <br style="clear:both;">
+
+{% include 'footer.html' %}

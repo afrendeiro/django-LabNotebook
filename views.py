@@ -1,6 +1,6 @@
 from django.shortcuts import render_to_response
 from django.core.paginator import Paginator, EmptyPage
-from labnotebook.models import Entry
+from labnotebook.models import Entry, Notebook
 from django.contrib.syndication.views import Feed
 from django.contrib.flatpages.models import FlatPage
 
@@ -20,13 +20,22 @@ def getEntries(request, selected_page=1):
     # Display all the entries
     return render_to_response('entries.html', { 'entries':returned_page.object_list, 'page':returned_page})
 
-
-def getEntry(request, entrySlug):
+def getEntry(request, notebookSlug, entrySlug):
 	# Get specified entry
-	entry = Entry.objects.filter(slug=entrySlug)
+	entry = Entry.objects.filter(slug=entrySlug)[0] # gets a dic of entries, so select only one there [0]
 
 	# Display specified entry
-	return render_to_response('single.html', { 'entries':entry})
+	return render_to_response('entry.html', { 'entry':entry })
+
+def getNotebooks(request):
+    """Returns list of notebooks"""
+    notebooks = Notebook.objects.all()
+    return render_to_response('notebooks.html', {'notebooks':notebooks})
+
+def getNotebook(request, notebookSlug):
+    """Return entries associated with notebook"""
+    entries = Entry.objects.filter(notebook='oikopleura')
+    return render_to_response('notebook.html', { 'notebook':notebookSlug, 'entries':entries })
 
 def getCategory(request, categorySlug, selected_page=1):
     # Get specified category
