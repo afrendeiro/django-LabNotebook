@@ -1,6 +1,39 @@
-{% include 'header.html' %}
-        {% for category in object_list %}
-            <h3>{{ category.title }}</h3>
-            <p>{{ category.description }}</p>
-        {% endfor %}
-{% include 'footer.html' %}
+{% extends "base.html" %}
+
+{% block title %} 
+    <title>{{ category.title }} - {{ site }}</title>
+{% endblock %}
+
+{% block content %}
+
+        {% if category %}
+
+            <div class="page-header">
+            <h2> Entries in the <i>"{{category}}"</i> category:</h2>
+                {% for entry in entries %}
+                    <div class="entry">
+                        <header class="entryhead">
+                            <h3><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a></h3>
+                            <small>Part of the <a href="{{entry.notebook.get_absolute_url}}"><i>"{{entry.notebook}}"</i> notebook</a></small><br>
+                            <small>{{entry.pub_date.year}}/{{entry.pub_date.month}}/{{entry.pub_date.day}}</small><br>
+                        </header>
+                        <p>{{ entry.text }}</p>
+                    </div>
+                {% endfor %}
+
+                <ul class="pager">
+                    {% if page.has_previous %}
+                        <li><a href="/{{ page.previous_page_number }}/">Previous Page</a></li>
+                    {% endif %}
+
+                    {% if page.has_next %}
+                        <li><a href="/{{ page.next_page_number }}/">Next Page</a></li>
+                    {% endif %}
+                </ul>
+        {% else %}
+            <div class="entry">
+                <p>No entries with the <i>"{{category}}"</i> category</p>
+            </div>
+        {% endif %}
+
+{% endblock %}

@@ -1,30 +1,29 @@
-{% include 'header.html' %}
+{% extends "base.html" %}
 
-    <div class="wrapper">
+{% block content %}
 
         {% if notebooks %}
-                {% for notebook in notebooks %}
-                    <div class="entry">
-                        <header class="entryhead">
-                            <h1><a href="{{ notebook.get_absolute_url }}">{{ notebook.title }}</a></h1>
-                            <h3>{{notebook.start_date.year}}/{{notebook.start_date.month}}/{{notebook.start_date.day}}</h3>
-                        </header>
-                        <p>{{ notebook.description }}</p>
-                    </div>
-                {% endfor %}
+            {% for notebook in notebooks %}
+                <div class="page-header">
+                    <h2><a href="{{ notebook.get_absolute_url }}">{{ notebook.title }} notebook</a></h2>
+                    <small>Started on: {{notebook.start_date.year}}/{{notebook.start_date.month}}/{{notebook.start_date.day}}</small>
+                    <p>{{ notebook.description }}</p>
+                </div>
+            {% endfor %}
 
-                <br />
+            <ul class="pager">
+                    {% if page.has_previous %}
+                        <li><a href="/{{ page.previous_page_number }}/">Previous Page</a></li>
+                    {% endif %}
 
-                {% if page.has_previous %}
-                    <a href="/{{ page.previous_page_number }}/">Previous Page</a>
-                {% endif %}
-
-                {% if page.has_next %}
-                    <a href="/{{ page.next_page_number }}/">Next Page</a>
-                {% endif %}
+                    {% if page.has_next %}
+                        <li><a href="/{{ page.next_page_number }}/">Next Page</a></li>
+                    {% endif %}
+                </ul>
+        
         {% else %}
             <div class="entry">
-                <p>No entrys matched</p>
+                <p>No notebooks yet!</p>
             </div>
         {% endif %}
 
@@ -32,4 +31,4 @@
 
     <br style="clear:both;">
 
-{% include 'footer.html' %}
+{% endblock %}

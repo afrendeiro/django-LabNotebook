@@ -1,6 +1,14 @@
-{% include 'header.html' %}
-        {% for category in object_list %}
-            <h3>{{ category.title }}</h3>
-            <p>{{ category.description }}</p>
+{% extends "base.html" %}
+
+{% block content %}
+	
+	{% if categories %}
+        {% for category in categories %}
+	        <div class="page-header">
+	                <h2><a href="{{ category.get_absolute_url }}">{{ category.title }} notebook</a></h2>
+	            <p>{{ category.description }}</p>
+	        </div>
+            
         {% endfor %}
-{% include 'footer.html' %}
+
+{% endblock %}

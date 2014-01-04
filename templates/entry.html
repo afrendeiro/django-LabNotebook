@@ -1,24 +1,34 @@
-{% include 'header.html' %}
+{% extends "base.html" %}
 
-    <div class="wrapper">
+{% block title %} 
+    <title>{{ entry.title }} - {{ site }}</title>
+{% endblock %}
+
+{% block content %}
 
         {% if entry %}
-            <div class="entry">
-                <header class="entryhead">
-                    <h1><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a></h1>
-                    <h2>Entry part of the <i>"{{entry.notebook}}"</i> notebook</h2>
-                    <h3>Published on {{entry.pub_date.year}}/{{entry.pub_date.month}}/{{entry.pub_date.day}}</h3>
-                </header>
-                <p>{{ entry.text }}</p>
+            <div class="page-header">
+                <h1><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a></h1>
+                <small>Entry part of the <a href="{{entry.notebook.get_absolute_url}}"><i>"{{entry.notebook}}"</i> notebook</a></small><br>
+                <small>Published on {{entry.pub_date.year}}/{{entry.pub_date.month}}/{{entry.pub_date.day}}</small><br>
+                <small>Categories:
+                    <ul class="list-inline">
+                        {% for category in entry.categories.all %}
+                            <li><a href="{{category.get_absolute_url}}">{{category}}</a></li>
+                        {% endfor %}
+                    </ul>
+                </small>
             </div>
+            <div>
+                {{ entry.text }}
+            </div>
+
         {% else %}
-            <div class="entry">
+            <div class="page-header">>
                 <p>No entry matched</p>
             </div>
         {% endif %}
 
     </div>
 
-    <br style="clear:both;">
-
-{% include 'footer.html' %}
+{% endblock %}

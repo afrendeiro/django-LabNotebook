@@ -1,38 +1,35 @@
-{% include 'header.html' %}
+{% extends "base.html" %}
 
-    <div class="wrapper">
+{% block title %} 
+    <title>{{ notebook.title }} - {{ site }}</title>
+{% endblock %}
+
+{% block content %}
 
         {% if entries %}
 
-            <h1> Entries in <i>{{notebook}}</i></h1>
+            <div class="page-header">
+                <h2>Entries in the <a href="{{notebook.get_absolute_url}}"><i>"{{notebook}}"</i> notebook</a>:</h2>
                 {% for entry in entries %}
-                    <div class="entry">
-                        <header class="entryhead">
-                            <h1><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a></h1>
-                            <h2><i>"{{entry.notebook}}"</i> notebook</h2>
-                            <h3>{{entry.pub_date.year}}/{{entry.pub_date.month}}/{{entry.pub_date.day}}</h3>
-                        </header>
-                        <p>{{ entry.text }}</p>
-                    </div>
+                    <h3><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a></h3>
+                    <small>{{entry.pub_date.year}}/{{entry.pub_date.month}}/{{entry.pub_date.day}}</small>
                 {% endfor %}
 
-                <br />
+                <ul class="pager">
+                    {% if page.has_previous %}
+                        <li><a href="/{{ page.previous_page_number }}/">Previous Page</a></li>
+                    {% endif %}
 
-                {% if page.has_previous %}
-                    <a href="/{{ page.previous_page_number }}/">Previous Page</a>
-                {% endif %}
+                    {% if page.has_next %}
+                        <li><a href="/{{ page.next_page_number }}/">Next Page</a></li>
+                    {% endif %}
+                </ul>
+            </div>
 
-                {% if page.has_next %}
-                    <a href="/{{ page.next_page_number }}/">Next Page</a>
-                {% endif %}
         {% else %}
-                        <div class="entry">
-                        <p>No entrys matched</p>
-                        </div>
+            <div class="page-header">
+                <p>No entrys matched</p>
+            </div>
         {% endif %}
 
-    </div>
-
-    <br style="clear:both;">
-
-{% include 'footer.html' %}
+{% endblock %}
