@@ -19,28 +19,8 @@ class Notebook(models.Model):
 		return self.title
 
 	def get_absolute_url(self):
-		return "/%s/" % self.slug
+		return "/labnotebook/%s/" % self.slug
 
-
-class Entry(models.Model):
-	""" Labnotebook entry"""
-	title = models.CharField(max_length=200)
-	pub_date = models.DateTimeField()
-	text = models.TextField()
-	slug = models.SlugField(max_length=40, unique=True)
-	author = models.ForeignKey(User)
-	notebook = models.ForeignKey(Notebook)
-
-	def __unicode__(self):
-		return self.title
-
-	def get_absolute_url(self):
-		return "/%s/%s/%s/%s/" % (self.notebook, self.pub_date.year, self.pub_date.month, self.slug)
-
-	class Meta:
-		ordering = ["-pub_date"]
-		verbose_name = _('Entry')
-		verbose_name_plural = _('Entries')
 
 class Category(models.Model):
 	title = models.CharField(max_length=200)
@@ -54,4 +34,26 @@ class Category(models.Model):
 		return self.title
 
 	def get_absolute_url(self):
-		return "/categories/%s/" % self.slug
+		return "/labnotebook/categories/%s/" % self.slug
+
+
+class Entry(models.Model):
+	""" Labnotebook entry"""
+	title = models.CharField(max_length=200)
+	pub_date = models.DateTimeField()
+	text = models.TextField()
+	slug = models.SlugField(max_length=40, unique=True)
+	author = models.ForeignKey(User)
+	notebook = models.ForeignKey(Notebook)
+	categories = models.ManyToManyField(Category)
+
+	def __unicode__(self):
+		return self.title
+
+	def get_absolute_url(self):
+		return "/labnotebook/%s/%s/%s/%s/" % (self.notebook, self.pub_date.year, self.pub_date.month, self.slug)
+
+	class Meta:
+		ordering = ["-pub_date"]
+		verbose_name = _('Entry')
+		verbose_name_plural = _('Entries')

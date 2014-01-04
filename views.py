@@ -1,6 +1,6 @@
 from django.shortcuts import render_to_response
 from django.core.paginator import Paginator, EmptyPage
-from labnotebook.models import Entry, Notebook
+from labnotebook.models import Entry, Notebook, Category
 from django.contrib.syndication.views import Feed
 from django.contrib.flatpages.models import FlatPage
 
@@ -34,8 +34,12 @@ def getNotebooks(request):
 
 def getNotebook(request, notebookSlug):
     """Return entries associated with notebook"""
-    entries = Entry.objects.filter(notebook='oikopleura')
-    return render_to_response('notebook.html', { 'notebook':notebookSlug, 'entries':entries })
+    entries = Entry.objects.all().order_by('-pub_date')
+    notebook_entries = []
+    for entry in entries:
+        if entry.notebook.slug == notebookSlug:
+            notebook_entries.append(entry)
+    return render_to_response('notebook.html', { 'notebook':notebookSlug, 'entries':notebook_entries })
 
 def getCategory(request, categorySlug, selected_page=1):
     # Get specified category

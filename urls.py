@@ -15,8 +15,8 @@ urlpatterns = patterns('',
     url(r'^(?P<notebookSlug>[-a-zA-Z0-9]+)/\d{4}/\d{1,2}/(?P<entrySlug>[-a-zA-Z0-9]+)/?$', views.getEntry, name ='entry'),
    
     # Categories
-    url(r'^categories/(?P<categorySlug>\w+)/?$', views.getCategory, name='category'),
-    url(r'^categories/(?P<categorySlug>\w+)/(?P<selected_page>\d+)/?$', views.getCategory, name='category_pag'),
+    url(r'^categories/(?P<categorySlug>[-a-zA-Z0-9]+)/?$', views.getCategory, name='category'),
+    url(r'^categories/(?P<categorySlug>[-a-zA-Z0-9]+)/(?P<selected_page>\d+)/?$', views.getCategory, name='category_pag'),
 
     
 )
